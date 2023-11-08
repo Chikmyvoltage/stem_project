@@ -3,19 +3,34 @@ import { createWebHistory, createRouter } from "vue-router";
 const routes =  [
   {
     path: "/",
-    alias: "/tutorials",
-    name: "tutorials",
-    component: () => import("./components/TutorialsList")
+    alias: "/topics",
+    name: "topics",
+    component: () => import("./components/TopicsList")
   },
   {
-    path: "/tutorials/:id",
-    name: "tutorial-details",
-    component: () => import("./components/Tutorial")
+    path: "/topics/:id",
+    name: "topic-details",
+    component: () => import("./components/Topic")
   },
   {
     path: "/add",
     name: "add",
-    component: () => import("./components/AddTutorial")
+    component: () => import("./components/AddTopic")
+  },
+  {
+    path: "/stem",
+    name: "stem",
+    component: () => import('./components/Stem')
+  },
+  {
+    path: "/relativity",
+    name: "relativity",
+    component: () => import('./components/Relativity')
+  },
+  {
+    path: "/404",
+    alias: "/:catchAll(.*)",
+    component: () => import('./components/NotFound')
   }
 ];
 

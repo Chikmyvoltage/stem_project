@@ -1,28 +1,28 @@
 <template>
-  <div v-if="currentTutorial" class="edit-form">
-    <h4>Tutorial</h4>
+  <div v-if="currentTopic" class="edit-form">
+    <h4>Topic</h4>
     <form>
       <div class="form-group">
         <label for="title">Title</label>
         <input type="text" class="form-control" id="title"
-          v-model="currentTutorial.title"
+          v-model="currentTopic.title"
         />
       </div>
       <div class="form-group">
-        <label for="description">Description</label>
+        <label for="description">Content</label>
         <input type="text" class="form-control" id="description"
-          v-model="currentTutorial.description"
+          v-model="currentTopic.content"
         />
       </div>
 
       <div class="form-group">
         <label><strong>Status:</strong></label>
-        {{ currentTutorial.published ? "Published" : "Pending" }}
+        {{ currentTopic.published ? "Done" : "Work-In-Progress" }}
       </div>
     </form>
 
-    <button class="badge badge-primary mr-2"
-      v-if="currentTutorial.published"
+<!--    <button class="badge badge-primary mr-2"
+      v-if="currentTopic.published"
       @click="updatePublished(false)"
     >
       UnPublish
@@ -34,41 +34,41 @@
     </button>
 
     <button class="badge badge-danger mr-2"
-      @click="deleteTutorial"
+      @click="deleteTopic"
     >
       Delete
     </button>
 
     <button type="submit" class="badge badge-success"
-      @click="updateTutorial"
+      @click="updateTopic"
     >
       Update
-    </button>
+    </button> -->
     <p>{{ message }}</p>
   </div>
 
   <div v-else>
     <br />
-    <p>Please click on a Tutorial...</p>
+    <p>Please click on a Topic...</p>
   </div>
 </template>
 
 <script>
-import TutorialDataService from "../services/TutorialDataService";
+import TopicDataService from "../services/TopicDataService";
 
 export default {
-  name: "tutorial",
+  name: "topic",
   data() {
     return {
-      currentTutorial: null,
+      currentTopic: null,
       message: ''
     };
   },
   methods: {
-    getTutorial(id) {
-      TutorialDataService.get(id)
+    getTopic(id) {
+      TopicDataService.get(id)
         .then(response => {
-          this.currentTutorial = response.data;
+          this.currentTopic = response.data;
           console.log(response.data);
         })
         .catch(e => {
@@ -78,16 +78,16 @@ export default {
 
     updatePublished(status) {
       var data = {
-        id: this.currentTutorial.id,
-        title: this.currentTutorial.title,
-        description: this.currentTutorial.description,
+        id: this.currentTopic.id,
+        title: this.currentTopic.title,
+        description: this.currentTopic.description,
         published: status
       };
 
-      TutorialDataService.update(this.currentTutorial.id, data)
+      TopicDataService.update(this.currentTopic.id, data)
         .then(response => {
           console.log(response.data);
-          this.currentTutorial.published = status;
+          this.currentTopic.published = status;
           this.message = 'The status was updated successfully!';
         })
         .catch(e => {
@@ -95,22 +95,22 @@ export default {
         });
     },
 
-    updateTutorial() {
-      TutorialDataService.update(this.currentTutorial.id, this.currentTutorial)
+    updateTopic() {
+      TopicDataService.update(this.currentTopic.id, this.currentTopic)
         .then(response => {
           console.log(response.data);
-          this.message = 'The tutorial was updated successfully!';
+          this.message = 'The topic was updated successfully!';
         })
         .catch(e => {
           console.log(e);
         });
     },
 
-    deleteTutorial() {
-      TutorialDataService.delete(this.currentTutorial.id)
+    deleteTopic() {
+      TopicDataService.delete(this.currentTopic.id)
         .then(response => {
           console.log(response.data);
-          this.$router.push({ name: "tutorials" });
+          this.$router.push({ name: "topics" });
         })
         .catch(e => {
           console.log(e);
@@ -119,7 +119,7 @@ export default {
   },
   mounted() {
     this.message = '';
-    this.getTutorial(this.$route.params.id);
+    this.getTopic(this.$route.params.id);
   }
 };
 </script>
